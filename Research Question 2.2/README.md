@@ -1,1 +1,0 @@
-We conducted a comprehensive comparative analysis of three predictive models: Random Forest, XGBoost, and CatBoost. Our goal was to evaluate and compare the performance of these models in predicting cardiac arrests using various metrics and visualizations. 
