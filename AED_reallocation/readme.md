@@ -3,3 +3,5 @@ In this folder, we have aed_data_prep.ipynb and intervention_data_prep.ipynb tha
 GeneticAlgorithm.ipynb uses genetic algorithm to find optimal AED locations
 
 KMclusters.ipynb is mainly for data visualization by folium library
+
+Spatial information is presented in this webpage: https://aed-reallocation.pages.dev/
