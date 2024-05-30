@@ -1,0 +1,1 @@
+# The primary goal is to understand the temporal patterns of these events and forecast their future trends by using time series analysis,including the traditional ARIMA model and recurrent neural network
