@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AED Reallocation</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            scroll-behavior: smooth;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: auto;
+            margin-right : auto;
+            margin-left : auto;
+            max-width : 250px;
+        }
+
+        .divider {
+            height: 150px;
+            width: 1px;
+            background-color: #ccc;
+            margin: 0 20px;
+        }
+
+        .intro {
+            flex: 1;
+            font-family: "Google Sans",Roboto,Arial,sans-serif;
+            font-size: 12px;
+            overflow: auto;
+            max-width: 440px;
+            line-height: 1.5;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        
+        .grid-button {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .button {
+            align-items: center;
+            appearance: none;
+            background-color: #fff;
+            border-radius: 20px;
+            border-style: none;
+            box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+            box-sizing: border-box;
+            color: #3c4043;
+            cursor: pointer;
+            display: inline-flex;
+            fill: currentcolor;
+            font-family: "Google Sans",Roboto,Arial,sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            height: 40px;
+            justify-content: center;
+            letter-spacing: .25px;
+            line-height: normal;
+            max-width: 100%;
+            overflow: visible;
+            padding: 2px 24px;
+            position: relative;
+            text-align: center;
+            text-transform: none;
+            transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            width: auto;
+            will-change: transform,opacity;
+            z-index: 0;
+        }
+
+        .button:hover {
+            background: #F6F9FE;
+            color: #174ea6;
+        }
+
+        .button.selected {
+            background: #F6F9FE;
+            color: #174ea6;
+            border: 2px solid #4285f4;
+        }
+
+        .map-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .map {
+            top: 80px;
+            left: 40px;
+            bottom: 25px;
+            min-width: 500px;
+            width: 80%;
+            height: 100%; 
+        }
+
+        .map-divider {
+            height: 300px;
+            width: 1px;
+            background-color: #ccc;
+            margin: 0 20px;
+        }
+
+        .map-intro {
+            flex: 1;
+            font-family: "Google Sans",Roboto,Arial,sans-serif;
+            font-size: 12px;
+            overflow: auto;
+            max-width: 440px;
+            line-height: 1.5;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .appendix {
+            font-family: "Google Sans",Roboto,Arial,sans-serif;
+            font-size: 12px;
+            overflow: auto;
+            max-width: 800px;
+            line-height: 1.5;
+            color: #ccc;
+        }
+        
+    </style>
+</head>
+
+<body onload="displayChange('intervention')">
+
+<div style="height:20px; width:100%; clear:both;"></div>
+
+<div class="logo-container">
+    <div class="logo">
+        <img src="logo.svg" alt="logo" width="100%">
+    </div>
+    <div class="divider"></div>
+    <div class="intro">
+        <h1>AED Reallocation</h1>
+        <p>Our algorithm designed to save lives efficiently in critical situations. By harnessing the power of data including the current Automated External Defibrillator (AED) locations, and records of cardiac arrest events, we have developed a solution to determine the optimal placement of AEDs.</p>
+    </div>
+</div>
+
+<div style="height:40px; width:100%; clear:both;"></div>
+
+<div class="grid-container">
+    <div class="grid-button"><button class="button selected" onclick="displayChange('intervention'); buttonHighlight();">Intervention</button></div>
+    <div class="grid-button"><button class="button" onclick="displayChange('aed'); buttonHighlight();">AED</button></div>
+</div>
+
+<div style="height:20px; width:100%; clear:both;"></div>
+
+<div class="map-container">
+<div class="map"><iframe id="iframe" src=""></iframe></div>
+<div class="map-divider"></div>
+<div class="map-intro">
+    <p id="map-intro-text"></p>
+</div>
+</div>
+
+<div style="height:20px; width:100%; clear:both;"></div>
+
+<a href="reallocation.html">
+<button class="button">AED Reallocation</button>
+</a>
+
+<div class="appendix"><p>The data is from a "Citizen Science" project: From bystander to hero provided by teaching teams in KU Leuven.</p></div>
+
+<script>
+
+    var display_text = {
+        "intervention": "* Intervention: Incidences of cardiac arrest mainly distribute around several big cities including: Antwerp, Brussels, Liege, and Charleroi. \n\n * Death cases: Based on distribution of interventions, it’s reasonable to find that the number of death of Antwerp, Brussels, Liege, and Charleroi is large respectively.",
+        "aed": "* AED current locations：Brussels has the largest proportion of AEDs compared to other cities. Indeed, cities with high frequency of Cardiac arrest have a relatively larger amount of AEDs."
+    };
+    
+    function displayChange(file) {
+
+        // change display map and text
+        document.getElementById('iframe').src = file + '.html';
+        document.getElementById("map-intro-text").innerHTML = display_text[file].replace(/\n/g, "<br>");;
+
+    };
+
+    function buttonHighlight() {
+
+        // highlight selected button
+        const buttons = document.querySelectorAll('.button');
+        buttons.forEach(button => {
+        button.classList.remove('selected');
+        });
+        event.target.classList.add('selected');
+    };
+
+</script>
+
+</body>
+</html>
+
